@@ -9,6 +9,10 @@ os.chdir(ROOT)
 font = 8
 for i, a in enumerate(sys.argv):
     if a == '--font': font = int(sys.argv[i + 1])
+team = 'Stay Hard'
+clean = '--clean' in sys.argv
+for i, a in enumerate(sys.argv):
+    if a == '--team': team = sys.argv[i + 1]
 build = 'build/book'
 shutil.rmtree(build, ignore_errors=True)
 os.makedirs(build + '/src', exist_ok=True)
@@ -69,13 +73,28 @@ for sec, path, title, prio, status, *_ in rows:
             body.append('\\banner{%s}' % esc(BANNERS[bn % len(BANNERS)])); bn += 1
         body.append('\\subsection{%s}' % esc(title))
     if path.endswith('.tex'):
-        body.append('\\input{%s}' % os.path.join(ROOT, path).replace('\\', '/'))
+        txt = open(path, encoding='utf8').read()
+        if clean:
+            for a_, b_ in (("STAY FOCUSED. STAY FUCKING HARD.", "STAY FOCUSED. STAY HARD."), ("WE ARE, MOTHERFUCKERS. WE ARE.", "WE ARE. WE ARE.")):
+                txt = txt.replace(a_, b_)
+        dstf = os.path.join(build, 'src', path.replace('/', '__'))
+        open(dstf, 'w', encoding='utf8').write(txt)
+        body.append('\\input{%s}' % os.path.join(ROOT, dstf).replace('\\', '/'))
     else:
         lang = '[language=bash]' if path.endswith('.sh') else ''
         body.append('\\lstinputlisting%s{%s}' % (lang, os.path.join(ROOT, prepare(path)).replace('\\', '/')))
-head = head.replace('ROOT', ROOT)
+head = head.replace('ROOT', ROOT).replace('TEAMHEADER', team)
 open(build + '/cover.tex', 'w', encoding='utf8').write(open('tools/cover.tex', encoding='utf8').read().replace('ROOT', ROOT))
 body.append('\\banner{STAY HARD. FUCK YOU.}')
+if clean:
+    import re as _re
+    for a_, b_ in (("STAY FOCUSED. STAY FUCKING HARD.", "STAY FOCUSED. STAY HARD."), ("WE ARE, MOTHERFUCKERS. WE ARE.", "WE ARE. WE ARE."), ("STAY HARD. FUCK YOU.", "STAY HARD."), ("FUCKING", "F***ING"), ("MOTHERFUCKERS", "M*********S")):
+        body = [x.replace(a_, b_) for x in body]
+        head = head.replace(a_, b_)
+    cov = open(build + '/cover.tex', encoding='utf8').read()
+    for a_, b_ in (("STAY FOCUSED. STAY FUCKING HARD.", "STAY FOCUSED. STAY HARD."), ("WE ARE, MOTHERFUCKERS. WE ARE.", "WE ARE. WE ARE.")):
+        cov = cov.replace(a_, b_)
+    open(build + '/cover.tex', 'w', encoding='utf8').write(cov)
 tex = head + '\n'.join(body) + '\n\\end{multicols}\n\\end{document}\n'
 open(build + '/teambook.tex', 'w', encoding='utf8').write(tex)
 print('rows in book:', len(rows))
@@ -87,5 +106,6 @@ for _ in range(2):
 pages = re.search(r'Output written on teambook.pdf \((\d+) pages', r.stdout)
 print('pages:', pages.group(1) if pages else '?')
 os.makedirs('output/pdf', exist_ok=True)
-shutil.copy(build + '/teambook.pdf', 'output/pdf/algo-teambook.pdf')
-shutil.copy(build + '/teambook.tex', 'output/pdf/algo-teambook.tex')
+suffix = '-clean' if clean else ''
+shutil.copy(build + '/teambook.pdf', 'output/pdf/algo-teambook%s.pdf' % suffix)
+shutil.copy(build + '/teambook.tex', 'output/pdf/algo-teambook%s.tex' % suffix)

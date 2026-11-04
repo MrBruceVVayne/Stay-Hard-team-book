@@ -1,0 +1,244 @@
+\documentclass[8pt,a4paper,landscape,twoside]{extarticle}
+
+\usepackage[T2A,T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{upquote}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+
+\geometry{verbose,landscape,a4paper,tmargin=1.1cm,bmargin=0.7cm,lmargin=0.6cm,rmargin=0.6cm,marginparwidth=0pt,marginparsep=0pt}
+
+% The original Muffix Sassif layout is retained, but syntax colors are replaced
+% with weight and shape so the code remains readable on a monochrome printer.
+\lstset{
+    frame=tb,
+    language=C++,
+    aboveskip=1mm,
+    belowskip=1mm,
+    showstringspaces=false,
+    showtabs=false,
+    columns=fullflexible,
+    keepspaces=true,
+    basicstyle=\fontsize{8pt}{8pt}\selectfont\ttfamily,
+    numbers=none,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    stringstyle=\normalfont\ttfamily,
+    breaklines=true,
+    breakatwhitespace=false,
+    tabsize=2,
+    inputencoding=utf8,
+    extendedchars=true,
+    mathescape=false,
+    texcl=false,
+    upquote=true,
+    literate=
+        {а}{{\selectfont\char224}}1 {б}{{\selectfont\char225}}1
+        {в}{{\selectfont\char226}}1 {г}{{\selectfont\char227}}1
+        {д}{{\selectfont\char228}}1 {е}{{\selectfont\char229}}1
+        {ё}{{\"e}}1 {ж}{{\selectfont\char230}}1
+        {з}{{\selectfont\char231}}1 {и}{{\selectfont\char232}}1
+        {й}{{\selectfont\char233}}1 {к}{{\selectfont\char234}}1
+        {л}{{\selectfont\char235}}1 {м}{{\selectfont\char236}}1
+        {н}{{\selectfont\char237}}1 {о}{{\selectfont\char238}}1
+        {п}{{\selectfont\char239}}1 {р}{{\selectfont\char240}}1
+        {с}{{\selectfont\char241}}1 {т}{{\selectfont\char242}}1
+        {у}{{\selectfont\char243}}1 {ф}{{\selectfont\char244}}1
+        {х}{{\selectfont\char245}}1 {ц}{{\selectfont\char246}}1
+        {ч}{{\selectfont\char247}}1 {ш}{{\selectfont\char248}}1
+        {щ}{{\selectfont\char249}}1 {ъ}{{\selectfont\char250}}1
+        {ы}{{\selectfont\char251}}1 {ь}{{\selectfont\char252}}1
+        {э}{{\selectfont\char253}}1 {ю}{{\selectfont\char254}}1
+        {я}{{\selectfont\char255}}1
+        {А}{{\selectfont\char192}}1 {Б}{{\selectfont\char193}}1
+        {В}{{\selectfont\char194}}1 {Г}{{\selectfont\char195}}1
+        {Д}{{\selectfont\char196}}1 {Е}{{\selectfont\char197}}1
+        {Ё}{{\"E}}1 {Ж}{{\selectfont\char198}}1
+        {З}{{\selectfont\char199}}1 {И}{{\selectfont\char200}}1
+        {Й}{{\selectfont\char201}}1 {К}{{\selectfont\char202}}1
+        {Л}{{\selectfont\char203}}1 {М}{{\selectfont\char204}}1
+        {Н}{{\selectfont\char205}}1 {О}{{\selectfont\char206}}1
+        {П}{{\selectfont\char207}}1 {Р}{{\selectfont\char208}}1
+        {С}{{\selectfont\char209}}1 {Т}{{\selectfont\char210}}1
+        {У}{{\selectfont\char211}}1 {Ф}{{\selectfont\char212}}1
+        {Х}{{\selectfont\char213}}1 {Ц}{{\selectfont\char214}}1
+        {Ч}{{\selectfont\char215}}1 {Ш}{{\selectfont\char216}}1
+        {Щ}{{\selectfont\char217}}1 {Ъ}{{\selectfont\char218}}1
+        {Ы}{{\selectfont\char219}}1 {Ь}{{\selectfont\char220}}1
+        {Э}{{\selectfont\char221}}1 {Ю}{{\selectfont\char222}}1
+        {Я}{{\selectfont\char223}}1
+}
+
+\setlength{\columnsep}{0.1in}
+\setlength{\columnseprule}{0.4pt}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancyplain}
+\fancyhf{}
+\fancyhead[R]{\fontsize{12}{12}\selectfont\bfseries\thepage}
+\fancyhead[L]{\fontsize{8}{8}\selectfont\bfseries Stay Hard}
+\fancypagestyle{cover}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\fancyhead[R]{\color{white}\fontsize{12}{12}\selectfont\bfseries\thepage}\fancyhead[L]{\color{white}\fontsize{8}{8}\selectfont\bfseries Stay Hard}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand\headrule{\vspace{-0.2cm}\rule{\headwidth}{0.4pt}\vspace{-0.8cm}}
+
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.3em}{}
+\titleformat{\subsection}{\bfseries\small}{}{0em}{}
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+\titlespacing*{\subsection}{0pt}{3pt}{1pt}
+\setlength{\abovedisplayskip}{1pt}\setlength{\belowdisplayskip}{1pt}
+\raggedcolumns
+\newcommand{\banner}[1]{\par\medskip\noindent{\setlength{\fboxsep}{3pt}\colorbox{black}{\parbox{\dimexpr\linewidth-2\fboxsep}{\centering\color{white}\fontencoding{T1}\fontfamily{phv}\fontseries{b}\selectfont\small #1}}}\par\medskip}
+\begin{document}
+%COVER
+\input{cover.tex}
+\begin{multicols}{2}
+\setlength{\parindent}{0pt}
+\footnotesize
+\raggedright
+\setlength{\emergencystretch}{4em}
+\tableofcontents
+\par\vspace{4mm}\noindent\includegraphics[width=\linewidth,height=10.5cm,keepaspectratio]{/home/user/algo/assets/cover2.jpg}
+\par\vspace{1mm}\banner{STAY HARD.}
+\pagestyle{fancyplain}
+\small\linespread{1.3}\selectfont\setlength{\parskip}{4pt plus 1pt}
+\section{Памятка}
+\input{/home/user/algo/build/book/src/facts__war.tex}
+\end{multicols}\begin{multicols}{3}\footnotesize\linespread{1}\selectfont
+\section{Шаблоны}
+\subsection{Шаблон}
+\lstinputlisting{/home/user/algo/build/book/src/tmp.cpp}
+\subsection{Быстрый шаблон (без solve)}
+\lstinputlisting{/home/user/algo/build/book/src/tmpFast.cpp}
+\banner{STAY HARD.}
+\subsection{Аллокатор}
+\lstinputlisting{/home/user/algo/build/book/src/alloc.cpp}
+\subsection{Компиляция}
+\lstinputlisting[language=bash]{/home/user/algo/build/book/src/cmp.sh}
+\subsection{Стресс-тест}
+\lstinputlisting[language=bash]{/home/user/algo/build/book/src/stress.sh}
+\banner{WHO'S GONNA CARRY THE BOATS AND THE LOGS?}
+\section{Структуры данных}
+\banner{THEY DON'T KNOW US, SON.}
+\subsection{Фенвик}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__fenwick.cpp}
+\subsection{Sparse table}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__sptable.cpp}
+\subsection{Disjoint sparse table}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__dst.cpp}
+\banner{STAY FOCUSED. STAY HARD.}
+\subsection{Дерево отрезков (ленивое)}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__segTree.cpp}
+\subsection{Дерево отрезков снизу}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__segTreeFast.cpp}
+\subsection{СНМ с откатами}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__dsu.cpp}
+\banner{CALLUS YOUR MIND.}
+\subsection{Неявное декартово дерево}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__treap.cpp}
+\subsection{Персистентное декартово дерево}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__persTreap.cpp}
+\subsection{Link-Cut Tree}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__linkCutTree.cpp}
+\banner{NO ONE IS COMING TO SAVE YOU. SOLVE IT.}
+\subsection{Алгоритм Mo}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__mo.cpp}
+\subsection{Динамический КХТ}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__lineContainer.cpp}
+\subsection{Li Chao}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__liChao.cpp}
+\banner{WE ARE. WE ARE.}
+\section{Графы}
+\banner{SUCK IT UP. SUBMIT THE SOLUTION.}
+\subsection{Паросочетания: Хопкрофт--Карп, блоссом, венгерка}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__matching.cpp}
+\subsection{КСС и 2-SAT}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__scc.cpp}
+\subsection{Мосты, точки сочленения, BCC}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__bridges.cpp}
+\banner{BE UNCOMMON AMONGST UNCOMMON PEOPLE.}
+\subsection{HLD и центроидная декомпозиция}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__tree.cpp}
+\subsection{Оффлайн динамическая связность}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__dyncon.cpp}
+\subsection{Пути, Эйлеров путь, направленный остов}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__paths.cpp}
+\banner{MOTIVATION IS CRAP. DISCIPLINE WINS.}
+\section{Математика}
+\banner{YOU'RE ONLY AT 40\%. KEEP GOING.}
+\subsection{Теория чисел: gcd, КТО, решето}
+\lstinputlisting{/home/user/algo/build/book/src/math__numth.cpp}
+\subsection{Миллер--Рабин, Ро-Поллард}
+\lstinputlisting{/home/user/algo/build/book/src/math__prime.cpp}
+\subsection{sqrt, первообразный корень, лог, floor-sum}
+\lstinputlisting{/home/user/algo/build/book/src/math__modular.cpp}
+\banner{DON'T STOP WHEN YOU'RE TIRED. STOP WHEN YOU'RE DONE.}
+\subsection{Суммы по делителям, Мёбиус, НОД/НОК-свёртки}
+\lstinputlisting{/home/user/algo/build/book/src/math__dirichlet.cpp}
+\subsection{Гаусс, определитель, матричная степень}
+\lstinputlisting{/home/user/algo/build/book/src/math__gauss.cpp}
+\subsection{Берлекэмп--Мэсси, n-й член, Лагранж}
+\lstinputlisting{/home/user/algo/build/book/src/math__linrec.cpp}
+\banner{ONE MORE TEST. ONE MORE ATTEMPT.}
+\subsection{Комбинаторика, Лукас, pi(n)}
+\lstinputlisting{/home/user/algo/build/book/src/math__combi.cpp}
+\subsection{Симплекс}
+\lstinputlisting{/home/user/algo/build/book/src/math__simplex.cpp}
+\banner{DISCIPLINE EQUALS FREEDOM.}
+\section{Преобразования и оптимизации}
+\subsection{NTT и свёртка по модулю}
+\lstinputlisting{/home/user/algo/build/book/src/opts__ntt.cpp}
+\banner{EMBRACE THE SUCK.}
+\subsection{FFT (double)}
+\lstinputlisting{/home/user/algo/build/book/src/opts__fft.cpp}
+\subsection{Многочлены: inv, log, exp, Стирлинг-строки}
+\lstinputlisting{/home/user/algo/build/book/src/opts__poly.cpp}
+\subsection{Уолш--Адамар, SOS}
+\lstinputlisting{/home/user/algo/build/book/src/opts__fwht.cpp}
+\banner{TAKE SOULS.}
+\subsection{D\&C, Кнут, НВП}
+\lstinputlisting{/home/user/algo/build/book/src/opts__dpopt.cpp}
+\banner{STAY HARD.}
+\section{Строки}
+\subsection{Z, префикс, Манакер, суфмас, хеш}
+\lstinputlisting{/home/user/algo/build/book/src/strings__strings.cpp}
+\subsection{Автомат, Ахо-Корасик, эертри}
+\lstinputlisting{/home/user/algo/build/book/src/strings__automata.cpp}
+\banner{WHO'S GONNA CARRY THE BOATS AND THE LOGS?}
+\section{Геометрия}
+\banner{THEY DON'T KNOW US, SON.}
+\subsection{База: точка, прямая, окружность}
+\lstinputlisting{/home/user/algo/build/book/src/geoma__point2d.cpp}
+\subsection{Оболочка, полигоны, ПП, калиперы, круг и полигон}
+\lstinputlisting{/home/user/algo/build/book/src/geoma__polygon.cpp}
+\banner{STAY FOCUSED. STAY HARD.}
+\section{Разное}
+\subsection{pbds, хеш, быстрый ввод, int128}
+\lstinputlisting{/home/user/algo/build/book/src/other__misc.cpp}
+\end{multicols}\begin{multicols}{2}\small\linespread{1.3}\selectfont\setlength{\parskip}{4pt plus 1pt}
+\section{Факты}
+\banner{CALLUS YOUR MIND.}
+\input{/home/user/algo/build/book/src/facts__notation.tex}
+\banner{NO ONE IS COMING TO SAVE YOU. SOLVE IT.}
+\input{/home/user/algo/build/book/src/facts__combi.tex}
+\banner{WE ARE. WE ARE.}
+\input{/home/user/algo/build/book/src/facts__numth.tex}
+\banner{SUCK IT UP. SUBMIT THE SOLUTION.}
+\input{/home/user/algo/build/book/src/facts__geomgraph.tex}
+\banner{BE UNCOMMON AMONGST UNCOMMON PEOPLE.}
+\input{/home/user/algo/build/book/src/facts__gamesmisc.tex}
+\banner{MOTIVATION IS CRAP. DISCIPLINE WINS.}
+\input{/home/user/algo/build/book/src/facts__tricks.tex}
+\banner{STAY HARD.}
+\end{multicols}
+\end{document}
