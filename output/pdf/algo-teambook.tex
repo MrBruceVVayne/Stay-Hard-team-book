@@ -96,6 +96,7 @@
 \titlespacing*{\subsection}{0pt}{3pt}{1pt}
 \setlength{\abovedisplayskip}{1pt}\setlength{\belowdisplayskip}{1pt}
 \raggedcolumns
+\newcommand{\banner}[1]{\par\medskip\noindent{\setlength{\fboxsep}{3pt}\colorbox{black}{\parbox{\dimexpr\linewidth-2\fboxsep}{\centering\color{white}\fontencoding{T1}\fontfamily{phv}\fontseries{b}\selectfont\small #1}}}\par\medskip}
 \begin{document}
 %COVER
 \input{cover.tex}
@@ -118,6 +119,7 @@
 \lstinputlisting[language=bash]{/home/user/algo/build/book/src/cmp.sh}
 \subsection{Стресс-тест}
 \lstinputlisting[language=bash]{/home/user/algo/build/book/src/stress.sh}
+\banner{STAY HARD.}
 \section{Структуры данных}
 \subsection{Фенвик}
 \lstinputlisting{/home/user/algo/build/book/src/dataStructures__fenwick.cpp}
@@ -143,6 +145,7 @@
 \lstinputlisting{/home/user/algo/build/book/src/dataStructures__lineContainer.cpp}
 \subsection{Li Chao}
 \lstinputlisting{/home/user/algo/build/book/src/dataStructures__liChao.cpp}
+\banner{WHO'S GONNA CARRY THE BOATS AND THE LOGS?}
 \section{Графы}
 \subsection{Диниц, Гомори--Ху, Штор--Вагнер}
 \lstinputlisting{/home/user/algo/build/book/src/graphs__dinic.cpp}
@@ -160,6 +163,7 @@
 \lstinputlisting{/home/user/algo/build/book/src/graphs__dyncon.cpp}
 \subsection{Пути, Эйлеров путь, направленный остов}
 \lstinputlisting{/home/user/algo/build/book/src/graphs__paths.cpp}
+\banner{THEY DON'T KNOW US, SON.}
 \section{Математика}
 \subsection{Теория чисел: gcd, КТО, решето}
 \lstinputlisting{/home/user/algo/build/book/src/math__numth.cpp}
@@ -177,6 +181,7 @@
 \lstinputlisting{/home/user/algo/build/book/src/math__combi.cpp}
 \subsection{Симплекс}
 \lstinputlisting{/home/user/algo/build/book/src/math__simplex.cpp}
+\banner{STAY FOCUSED. STAY FUCKING HARD.}
 \section{Преобразования и оптимизации}
 \subsection{NTT и свёртка по модулю}
 \lstinputlisting{/home/user/algo/build/book/src/opts__ntt.cpp}
@@ -188,24 +193,34 @@
 \lstinputlisting{/home/user/algo/build/book/src/opts__fwht.cpp}
 \subsection{D\&C, Кнут, НВП}
 \lstinputlisting{/home/user/algo/build/book/src/opts__dpopt.cpp}
+\banner{CALLUS YOUR MIND.}
 \section{Строки}
 \subsection{Z, префикс, Манакер, суфмас, хеш}
 \lstinputlisting{/home/user/algo/build/book/src/strings__strings.cpp}
 \subsection{Автомат, Ахо-Корасик, эертри}
 \lstinputlisting{/home/user/algo/build/book/src/strings__automata.cpp}
+\banner{NO ONE IS COMING TO SAVE YOU. SOLVE IT.}
 \section{Геометрия}
 \subsection{База: точка, прямая, окружность}
 \lstinputlisting{/home/user/algo/build/book/src/geoma__point2d.cpp}
 \subsection{Оболочка, полигоны, ПП, калиперы, круг и полигон}
 \lstinputlisting{/home/user/algo/build/book/src/geoma__polygon.cpp}
+\banner{WE ARE, MOTHERFUCKERS. WE ARE.}
 \section{Разное}
 \subsection{pbds, хеш, быстрый ввод, int128}
 \lstinputlisting{/home/user/algo/build/book/src/other__misc.cpp}
-\end{multicols*}\begin{multicols*}{2}\small\linespread{1.5}\selectfont\setlength{\parskip}{4pt plus 1pt}
+\end{multicols*}\begin{multicols*}{2}\small\linespread{1.35}\selectfont\setlength{\parskip}{4pt plus 1pt}
 \section{Факты}
+\input{/home/user/algo/facts/notation.tex}
+\banner{SUCK IT UP. SUBMIT THE SOLUTION.}
 \input{/home/user/algo/facts/combi.tex}
+\banner{STAY HARD.}
 \input{/home/user/algo/facts/numth.tex}
+\banner{WHO'S GONNA CARRY THE BOATS AND THE LOGS?}
 \input{/home/user/algo/facts/geomgraph.tex}
+\banner{THEY DON'T KNOW US, SON.}
 \input{/home/user/algo/facts/gamesmisc.tex}
+\banner{STAY FOCUSED. STAY FUCKING HARD.}
+\input{/home/user/algo/facts/tricks.tex}
 \end{multicols*}
 \end{document}

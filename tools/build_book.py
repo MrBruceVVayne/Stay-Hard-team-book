@@ -38,14 +38,23 @@ def prepare(path):
     return dst
 
 head = open('tools/preamble.tex', encoding='utf8').read().replace('FONTSIZE', str(font)).replace('FONTSKIP', str(font + 0.5 if font < 8 else font))
+BANNERS = ['STAY HARD.', "WHO'S GONNA CARRY THE BOATS AND THE LOGS?", "THEY DON'T KNOW US, SON.", 'STAY FOCUSED. STAY FUCKING HARD.', 'CALLUS YOUR MIND.', 'NO ONE IS COMING TO SAVE YOU. SOLVE IT.', 'WE ARE, MOTHERFUCKERS. WE ARE.', 'SUCK IT UP. SUBMIT THE SOLUTION.']
+bn = 0
 body = []
 cur = None
+first_fact = True
 for sec, path, title, prio, status, *_ in rows:
     if sec != cur:
         if sec == 'Факты':   # факты: 2 колонки и крупнее шрифт -- формулы в узкой колонке плохо читаются
-            body.append('\\end{multicols*}\\begin{multicols*}{2}\\small\\linespread{1.5}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}')
+            body.append('\\end{multicols*}\\begin{multicols*}{2}\\small\\linespread{1.35}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}')
+        if cur is not None and sec != 'Факты':
+            body.append('\\banner{%s}' % BANNERS[bn % len(BANNERS)]); bn += 1
         body.append('\\section{%s}' % esc(sec))
         cur = sec
+    if path.endswith('.tex'):
+        if not first_fact:
+            body.append('\\banner{%s}' % BANNERS[bn % len(BANNERS)]); bn += 1
+        first_fact = False
     if not path.endswith('.tex'):   # у файлов фактов свои \subsection
         body.append('\\subsection{%s}' % esc(title))
     if path.endswith('.tex'):
