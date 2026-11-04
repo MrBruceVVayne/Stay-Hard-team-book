@@ -82,3 +82,43 @@ for _ in range(100):                               # число целых то�
     g = gcd(abs(dx), abs(dy)); pts = {(dx * k // g if g else 0, dy * k // g if g else 0) for k in range(g + 1)}
     assert len(pts) == (g + 1 if g else 1)
 print("geo ok")
+
+# среднее арифметическое минимизирует сумму квадратов расстояний (заметка из старого README)
+for _ in range(300):
+    d = random.randint(1, 3); pts = [[random.uniform(-9, 9) for _ in range(d)] for _ in range(random.randint(1, 8))]
+    m = [sum(p[i] for p in pts) / len(pts) for i in range(d)]
+    f = lambda q: sum(sum((q[i] - p[i]) ** 2 for i in range(d)) for p in pts)
+    for _ in range(20):
+        q = [m[i] + random.gauss(0, 1) for i in range(d)]
+        assert f(m) <= f(q) + 1e-9
+    # f(q) = f(m) + n |q - m|^2 (разложение Гюйгенса)
+    q = [random.uniform(-9, 9) for _ in range(d)]
+    assert close(f(q), f(m) + len(pts) * sum((q[i] - m[i]) ** 2 for i in range(d)))
+# триангуляция выпуклого n-угольника: двойственный граф -- дерево из n-2 вершин степени <= 3; их C_{n-2}
+def triangulations(i, j):
+    if j - i < 2: return [[]]
+    res = []
+    for k in range(i + 1, j):
+        for L in triangulations(i, k):
+            for R in triangulations(k, j): res.append(L + R + [(i, k, j)])
+    return res
+from math import comb as _comb
+for n in range(3, 9):
+    ts = triangulations(0, n - 1); assert len(ts) == _comb(2 * (n - 2), n - 2) // (n - 1)
+    for tr in ts:
+        assert len(tr) == n - 2
+        edges = {}
+        for idx, t in enumerate(tr):
+            for a, b in ((t[0], t[1]), (t[1], t[2]), (t[0], t[2])):
+                if b - a >= 2 and not (a == 0 and b == n - 1) or (b - a == n - 1 and False): edges.setdefault((a, b), []).append(idx)
+        adj = {i: set() for i in range(n - 2)}
+        for (a, b), v in edges.items():
+            if len(v) == 2: adj[v[0]].add(v[1]); adj[v[1]].add(v[0])
+        assert sum(len(x) for x in adj.values()) // 2 == n - 3 and max(len(x) for x in adj.values()) <= 3
+        seen, st = {0}, [0]
+        while st:
+            x = st.pop()
+            for y in adj[x]:
+                if y not in seen: seen.add(y); st.append(y)
+        assert len(seen) == n - 2          # связный, n-3 рёбер => дерево
+print("geo2 ok")
