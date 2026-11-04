@@ -53,6 +53,8 @@ for sec, path, title, prio, status, *_ in rows:
     else:
         lang = '[language=bash]' if path.endswith('.sh') else ''
         body.append('\\lstinputlisting%s{%s}' % (lang, os.path.join(ROOT, prepare(path)).replace('\\', '/')))
+head = head.replace('ROOT', ROOT)
+open(build + '/cover.tex', 'w', encoding='utf8').write(open('tools/cover.tex', encoding='utf8').read().replace('ROOT', ROOT))
 tex = head + '\n'.join(body) + '\n\\end{multicols*}\n\\end{document}\n'
 open(build + '/teambook.tex', 'w', encoding='utf8').write(tex)
 print('rows in book:', len(rows))

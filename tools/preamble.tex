@@ -87,6 +87,9 @@
 \renewcommand\headrule{\vspace{-0.2cm}\rule{\headwidth}{0.4pt}\vspace{-0.8cm}}
 
 \usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{pagecolor}
 \titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.3em}{}
 \titleformat{\subsection}{\bfseries\small}{}{0em}{}
 \titlespacing*{\section}{0pt}{3pt}{1pt}
@@ -94,6 +97,8 @@
 \setlength{\abovedisplayskip}{1pt}\setlength{\belowdisplayskip}{1pt}
 \raggedcolumns
 \begin{document}
+%COVER
+\input{cover.tex}
 \begin{multicols*}{3}
 \setlength{\parindent}{0pt}
 \footnotesize
