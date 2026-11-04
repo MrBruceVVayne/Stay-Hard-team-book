@@ -19,7 +19,7 @@ for line in open('CONTENTS.md', encoding='utf8'):
         c = [x.strip() for x in line.strip().strip('|').split('|')]
         if len(c) >= 5 and c[4] == 'in': rows.append(c)
 
-def esc(s): return s.replace('_', '\\_').replace('&', '\\&').replace('#', '\\#')
+def esc(s): return s.replace('%', '\\%').replace('_', '\\_').replace('&', '\\&').replace('#', '\\#')
 
 def prepare(path):
     out = []
@@ -38,24 +38,33 @@ def prepare(path):
     return dst
 
 head = open('tools/preamble.tex', encoding='utf8').read().replace('FONTSIZE', str(font)).replace('FONTSKIP', str(font + 0.5 if font < 8 else font))
-BANNERS = ['STAY HARD.', "WHO'S GONNA CARRY THE BOATS AND THE LOGS?", "THEY DON'T KNOW US, SON.", 'STAY FOCUSED. STAY FUCKING HARD.', 'CALLUS YOUR MIND.', 'NO ONE IS COMING TO SAVE YOU. SOLVE IT.', 'WE ARE, MOTHERFUCKERS. WE ARE.', 'SUCK IT UP. SUBMIT THE SOLUTION.']
+BANNERS = ['STAY HARD.', "WHO'S GONNA CARRY THE BOATS AND THE LOGS?", "THEY DON'T KNOW US, SON.", 'STAY FOCUSED. STAY FUCKING HARD.', 'CALLUS YOUR MIND.', 'NO ONE IS COMING TO SAVE YOU. SOLVE IT.', 'WE ARE, MOTHERFUCKERS. WE ARE.', 'SUCK IT UP. SUBMIT THE SOLUTION.', 'BE UNCOMMON AMONGST UNCOMMON PEOPLE.', 'MOTIVATION IS CRAP. DISCIPLINE WINS.', "YOU'RE ONLY AT 40%. KEEP GOING.", "DON'T STOP WHEN YOU'RE TIRED. STOP WHEN YOU'RE DONE.", 'ONE MORE TEST. ONE MORE ATTEMPT.', 'DISCIPLINE EQUALS FREEDOM.', 'EMBRACE THE SUCK.', 'TAKE SOULS.']
+TWO = {'Памятка', 'Факты'}
+mode = 3
+cnt = 0
 bn = 0
 body = []
 cur = None
 first_fact = True
 for sec, path, title, prio, status, *_ in rows:
     if sec != cur:
-        if sec == 'Факты':   # факты: 2 колонки и крупнее шрифт -- формулы в узкой колонке плохо читаются
-            body.append('\\end{multicols*}\\begin{multicols*}{2}\\small\\linespread{1.35}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}')
-        if cur is not None and sec != 'Факты':
-            body.append('\\banner{%s}' % BANNERS[bn % len(BANNERS)]); bn += 1
+        newmode = 2 if sec in TWO else 3
+        if cur is not None and newmode == mode and sec not in TWO:
+            body.append('\\banner{%s}' % esc(BANNERS[bn % len(BANNERS)]).replace('\\%', '\\%')); bn += 1
+        if newmode != mode or cur is None:
+            sty = '\\small\\linespread{1.3}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}' if newmode == 2 else '\\footnotesize\\linespread{1}\\selectfont'
+            body.append('\\end{multicols*}\\newpage\\begin{multicols*}{%d}%s' % (newmode, sty))
+            mode = newmode
         body.append('\\section{%s}' % esc(sec))
         cur = sec
     if path.endswith('.tex'):
         if not first_fact:
-            body.append('\\banner{%s}' % BANNERS[bn % len(BANNERS)]); bn += 1
+            body.append('\\banner{%s}' % esc(BANNERS[bn % len(BANNERS)])); bn += 1
         first_fact = False
     if not path.endswith('.tex'):   # у файлов фактов свои \subsection
+        cnt += 1
+        if cnt % 3 == 0:
+            body.append('\\banner{%s}' % esc(BANNERS[bn % len(BANNERS)])); bn += 1
         body.append('\\subsection{%s}' % esc(title))
     if path.endswith('.tex'):
         body.append('\\input{%s}' % os.path.join(ROOT, path).replace('\\', '/'))

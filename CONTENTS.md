@@ -7,6 +7,7 @@
 
 | section | path | title | prio | status | note |
 |---|---|---|---|---|---|
+| Памятка | facts/war.tex | ВОЙНА: затуп, баг, не сдаваться | 1 | in | |
 | Шаблоны | tmp.cpp | Шаблон | 1 | in | |
 | Шаблоны | tmpFast.cpp | Быстрый шаблон (без solve) | 2 | in | |
 | Шаблоны | alloc.cpp | Аллокатор | 2 | in | |
