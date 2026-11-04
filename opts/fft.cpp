@@ -2,7 +2,7 @@
 #include "tmp.cpp"
 
 using cd = complex<double>;
-const double PI = acos(-1.0);
+const double FPI = acos(-1.0);
 
 void fft(ve<cd> &a, bool invert) {
         int n = a.size();
@@ -13,7 +13,7 @@ void fft(ve<cd> &a, bool invert) {
                 if (i < j) swap(a[i], a[j]);
         }
         ve<cd> rt(n / 2 + 1);
-        for (int i = 0; i < n / 2; i++) rt[i] = polar(1.0, 2 * PI * i / n * (invert ? -1 : 1));
+        for (int i = 0; i < n / 2; i++) rt[i] = polar(1.0, 2 * FPI * i / n * (invert ? -1 : 1));
         for (int len = 2; len <= n; len <<= 1) {
                 int step = n / len;
                 for (int i = 0; i < n; i += len) {

@@ -17,3 +17,11 @@ template<typename T> ostream& operator<<(ostream& os, const vector<T>& v) {
         for (auto& x : v) os << x << ' ';
         return os;
 }
+
+template<typename A, typename B> ostream& operator<<(ostream& os, const pair<A, B>& p) {
+        return os << '(' << p.first << ',' << p.second << ')';
+}
+template<typename T> ostream& operator<<(ostream& os, const set<T>& s) {
+        for (auto& x : s) os << x << ' ';
+        return os;
+}
