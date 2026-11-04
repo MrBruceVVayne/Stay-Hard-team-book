@@ -43,7 +43,7 @@ cur = None
 for sec, path, title, prio, status, *_ in rows:
     if sec != cur:
         if sec == 'Факты':   # факты: 2 колонки и крупнее шрифт -- формулы в узкой колонке плохо читаются
-            body.append('\\end{multicols*}\\begin{multicols*}{2}\\small\\setlength{\\parskip}{3pt plus 1pt}')
+            body.append('\\end{multicols*}\\begin{multicols*}{2}\\small\\linespread{1.5}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}')
         body.append('\\section{%s}' % esc(sec))
         cur = sec
     if not path.endswith('.tex'):   # у файлов фактов свои \subsection
