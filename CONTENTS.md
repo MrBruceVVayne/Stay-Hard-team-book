@@ -25,8 +25,8 @@
 | Структуры данных | dataStructures/mo.cpp | Алгоритм Mo | 2 | in | |
 | Структуры данных | dataStructures/lineContainer.cpp | Динамический КХТ | 1 | in | |
 | Структуры данных | dataStructures/liChao.cpp | Li Chao | 2 | in | |
-| Графы | graphs/dinic.cpp | Диниц, Гомори--Ху, Штор--Вагнер | 1 | in | |
-| Графы | graphs/mincost.cpp | Mincost maxflow | 1 | in | |
+| Графы | graphs/dinic.cpp | Диниц, Гомори--Ху, Штор--Вагнер | 3 | cut | потоки убраны по решению команды; код и тест (g_flow) остаются в репозитории |
+| Графы | graphs/mincost.cpp | Mincost maxflow | 3 | cut | потоки убраны по решению команды |
 | Графы | graphs/matching.cpp | Паросочетания: Хопкрофт--Карп, блоссом, венгерка | 1 | in | |
 | Графы | graphs/scc.cpp | КСС и 2-SAT | 1 | in | |
 | Графы | graphs/bridges.cpp | Мосты, точки сочленения, BCC | 1 | in | |
