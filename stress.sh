@@ -6,6 +6,6 @@ for ((i = 1; ; i++)); do
         ./$3 $i > in
         ./$1 < in > out1
         ./$2 < in > out2
-        diff -w out1 out2 > /dev/null || { echo "WA на тесте $i"; break; }
+        diff -w out1 out2 > /dev/null || { echo "WA on test $i"; break; }
         echo "ok $i"
 done
