@@ -40,7 +40,7 @@ def prepare(path):
 head = open('tools/preamble.tex', encoding='utf8').read().replace('FONTSIZE', str(font)).replace('FONTSKIP', str(font + 0.5 if font < 8 else font))
 BANNERS = ['STAY HARD.', "WHO'S GONNA CARRY THE BOATS AND THE LOGS?", "THEY DON'T KNOW US, SON.", 'STAY FOCUSED. STAY FUCKING HARD.', 'CALLUS YOUR MIND.', 'NO ONE IS COMING TO SAVE YOU. SOLVE IT.', 'WE ARE, MOTHERFUCKERS. WE ARE.', 'SUCK IT UP. SUBMIT THE SOLUTION.', 'BE UNCOMMON AMONGST UNCOMMON PEOPLE.', 'MOTIVATION IS CRAP. DISCIPLINE WINS.', "YOU'RE ONLY AT 40%. KEEP GOING.", "DON'T STOP WHEN YOU'RE TIRED. STOP WHEN YOU'RE DONE.", 'ONE MORE TEST. ONE MORE ATTEMPT.', 'DISCIPLINE EQUALS FREEDOM.', 'EMBRACE THE SUCK.', 'TAKE SOULS.']
 TWO = {'Памятка', 'Факты'}
-mode = 3
+mode = 2
 cnt = 0
 bn = 0
 body = []
@@ -51,10 +51,12 @@ for sec, path, title, prio, status, *_ in rows:
         newmode = 2 if sec in TWO else 3
         if cur is not None and newmode == mode and sec not in TWO:
             body.append('\\banner{%s}' % esc(BANNERS[bn % len(BANNERS)]).replace('\\%', '\\%')); bn += 1
-        if newmode != mode or cur is None:
-            sty = '\\small\\linespread{1.3}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}' if newmode == 2 else '\\footnotesize\\linespread{1}\\selectfont'
-            body.append('\\end{multicols*}\\newpage\\begin{multicols*}{%d}%s' % (newmode, sty))
+        sty = '\\small\\linespread{1.3}\\selectfont\\setlength{\\parskip}{4pt plus 1pt}' if newmode == 2 else '\\footnotesize\\linespread{1}\\selectfont'
+        if newmode != mode:
+            body.append('\\end{multicols}\\begin{multicols}{%d}%s' % (newmode, sty))
             mode = newmode
+        elif cur is None:
+            body.append(sty)
         body.append('\\section{%s}' % esc(sec))
         cur = sec
     if path.endswith('.tex'):
@@ -73,7 +75,8 @@ for sec, path, title, prio, status, *_ in rows:
         body.append('\\lstinputlisting%s{%s}' % (lang, os.path.join(ROOT, prepare(path)).replace('\\', '/')))
 head = head.replace('ROOT', ROOT)
 open(build + '/cover.tex', 'w', encoding='utf8').write(open('tools/cover.tex', encoding='utf8').read().replace('ROOT', ROOT))
-tex = head + '\n'.join(body) + '\n\\end{multicols*}\n\\end{document}\n'
+body.append('\\banner{STAY HARD. FUCK YOU.}')
+tex = head + '\n'.join(body) + '\n\\end{multicols}\n\\end{document}\n'
 open(build + '/teambook.tex', 'w', encoding='utf8').write(tex)
 print('rows in book:', len(rows))
 if '--no-pdf' in sys.argv: sys.exit(0)

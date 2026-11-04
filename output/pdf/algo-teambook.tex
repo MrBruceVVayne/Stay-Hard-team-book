@@ -101,7 +101,7 @@
 \begin{document}
 %COVER
 \input{cover.tex}
-\begin{multicols*}{3}
+\begin{multicols}{2}
 \setlength{\parindent}{0pt}
 \footnotesize
 \raggedright
@@ -110,10 +110,10 @@
 \par\vspace{4mm}\noindent\includegraphics[width=\linewidth,height=10.5cm,keepaspectratio]{/home/user/algo/assets/cover2.jpg}
 \par\vspace{1mm}\banner{STAY HARD.}
 \pagestyle{fancyplain}
-\end{multicols*}\newpage\begin{multicols*}{2}\small\linespread{1.3}\selectfont\setlength{\parskip}{4pt plus 1pt}
+\small\linespread{1.3}\selectfont\setlength{\parskip}{4pt plus 1pt}
 \section{Памятка}
 \input{/home/user/algo/facts/war.tex}
-\end{multicols*}\newpage\begin{multicols*}{3}\footnotesize\linespread{1}\selectfont
+\end{multicols}\begin{multicols}{3}\footnotesize\linespread{1}\selectfont
 \section{Шаблоны}
 \subsection{Шаблон}
 \lstinputlisting{/home/user/algo/build/book/src/tmp.cpp}
@@ -229,7 +229,7 @@
 \section{Разное}
 \subsection{pbds, хеш, быстрый ввод, int128}
 \lstinputlisting{/home/user/algo/build/book/src/other__misc.cpp}
-\end{multicols*}\newpage\begin{multicols*}{2}\small\linespread{1.3}\selectfont\setlength{\parskip}{4pt plus 1pt}
+\end{multicols}\begin{multicols}{2}\small\linespread{1.3}\selectfont\setlength{\parskip}{4pt plus 1pt}
 \section{Факты}
 \banner{NO ONE IS COMING TO SAVE YOU. SOLVE IT.}
 \input{/home/user/algo/facts/notation.tex}
@@ -243,5 +243,6 @@
 \input{/home/user/algo/facts/gamesmisc.tex}
 \banner{YOU'RE ONLY AT 40\%. KEEP GOING.}
 \input{/home/user/algo/facts/tricks.tex}
-\end{multicols*}
+\banner{STAY HARD. FUCK YOU.}
+\end{multicols}
 \end{document}
