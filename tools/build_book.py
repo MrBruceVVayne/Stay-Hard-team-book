@@ -9,7 +9,7 @@ os.chdir(ROOT)
 font = 8
 for i, a in enumerate(sys.argv):
     if a == '--font': font = int(sys.argv[i + 1])
-team = 'Stay Hard'
+team = 'Central University (Lukin, Nepomnyashchiy, Yusupov)'
 clean = '--clean' in sys.argv
 for i, a in enumerate(sys.argv):
     if a == '--team': team = sys.argv[i + 1]
