@@ -1,3 +1,4 @@
+#pragma once
 #include <bits/stdc++.h>
 
 // #pragma GCC optimize("O3,unroll-loops")

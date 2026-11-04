@@ -1,96 +1,128 @@
 #include "tmp.cpp"
-#include "splayTree.cpp"
 
-class LinkCutTree {
-public:
-        int n;
-        ve<Node *> nodes;
+// Link-Cut Tree: вершины 1..n. Лес с корнями, makeRoot/link/cut/connected, сумма на пути.
+struct LinkCut {
+        struct Node {
+                int ch[2] = {0, 0}, p = 0;
+                bool rev = false;
+                ll val = 0, sum = 0;
+        };
 
-        LinkCutTree() : n(0) {}
+        ve<Node> t;
 
-        LinkCutTree(int _n) : n(_n) {
-                nodes.resize(n);
-                for (int i = 0; i < n; i++) {
-                        nodes[i] = new Node(i);
+        LinkCut(int n) : t(n + 1) {}
+
+        bool isRoot(int x) {
+                int p = t[x].p;
+                return !p || (t[p].ch[0] != x && t[p].ch[1] != x);
+        }
+
+        void pull(int x) {
+                t[x].sum = t[x].val + t[t[x].ch[0]].sum + t[t[x].ch[1]].sum;
+        }
+
+        void flip(int x) {
+                if (!x) return;
+                swap(t[x].ch[0], t[x].ch[1]);
+                t[x].rev ^= 1;
+        }
+
+        void push(int x) {
+                if (!t[x].rev) return;
+                flip(t[x].ch[0]);
+                flip(t[x].ch[1]);
+                t[x].rev = false;
+        }
+
+        void rotate(int x) {
+                int p = t[x].p, g = t[p].p, d = (t[p].ch[1] == x);
+                if (!isRoot(p)) t[g].ch[t[g].ch[1] == p] = x;
+                t[x].p = g;
+                t[p].ch[d] = t[x].ch[d ^ 1];
+                if (t[x].ch[d ^ 1]) t[t[x].ch[d ^ 1]].p = p;
+                t[x].ch[d ^ 1] = p;
+                t[p].p = x;
+                pull(p);
+        }
+
+        void splay(int x) {
+                vi stk;
+                for (int y = x;; y = t[y].p) {
+                        stk.push_back(y);
+                        if (isRoot(y)) break;
                 }
-        }
-
-        int addNode() {
-                int id = nodes.size();
-                nodes.push_back(new Node(id));
-                return id;
-        }
-
-        void makeRoot(Node *v) {
-                if (!v) return;
-                expose(v);
-                v->reverse();
-        }
-
-        void expose(Node *v) {
-                Node *u = v;
-                Node *lst = nullptr;
-                while (u != nullptr) {
-                        splay(u);
-                        u->push();
-                        u->r = lst;
-                        u->pull();
-                        lst = u;
-                        u = u->p;
+                while (!stk.empty()) {
+                        push(stk.back());
+                        stk.pop_back();
                 }
-                splay(v);
-        }
-        
-        bool link(int a, int b) {
-                Node *v = nodes[a];
-                Node *u = nodes[b];
-                makeRoot(v);
-                expose(u);
-                if (v->p != nullptr) {
-                        return false;
-                }
-                v->p = u;
-                // u->pull();
-                return true;
-        }
-
-        bool cut(int a, int b) {
-                Node *v = nodes[a];
-                Node *u = nodes[b];
-                expose(u);
-                splay(v);
-                if (v->p != u) {
-                        swap(u, v);
-                        expose(u);
-                        splay(v);
-                        if (v->p != u) {
-                                return false;
+                while (!isRoot(x)) {
+                        int p = t[x].p;
+                        if (!isRoot(p)) {
+                                int g = t[p].p;
+                                rotate(((t[g].ch[1] == p) == (t[p].ch[1] == x)) ? p : x);
                         }
+                        rotate(x);
                 }
-                Node *lst = v->p;
-                v->p = nullptr;
-                if (lst) lst->pull();
+                pull(x);
+        }
+
+        void access(int x) {
+                int last = 0;
+                for (int y = x; y; y = t[y].p) {
+                        splay(y);
+                        t[y].ch[1] = last;
+                        pull(y);
+                        last = y;
+                }
+                splay(x);
+        }
+
+        void makeRoot(int x) {
+                access(x);
+                flip(x);
+        }
+
+        int findRoot(int x) {
+                access(x);
+                while (true) {
+                        push(x);
+                        if (!t[x].ch[0]) break;
+                        x = t[x].ch[0];
+                }
+                splay(x);
+                return x;
+        }
+
+        bool connected(int x, int y) {
+                return findRoot(x) == findRoot(y);
+        }
+
+        bool link(int x, int y) {
+                makeRoot(x);
+                if (findRoot(y) == x) return false;
+                t[x].p = y;
                 return true;
         }
 
-        Node * getL(Node *v) {
-                v->push();
-                if (!v->l) return v;
-                return getL(v->l);
+        bool cut(int x, int y) {  // удаляет ребро x-y, если оно есть
+                makeRoot(x);
+                access(y);
+                if (t[y].ch[0] != x || t[x].ch[0] || t[x].ch[1]) return false;
+                t[y].ch[0] = 0;
+                t[x].p = 0;
+                pull(y);
+                return true;
         }
 
-        int getRoot(int a) {
-                Node *v = nodes[a];
-                expose(v);
-                return getL(v)->x;
+        void set(int x, ll v) {
+                access(x);
+                t[x].val = v;
+                pull(x);
         }
 
-        int pathLen(int a, int b) {
-                if (getRoot(a) != getRoot(b)) return -1;
-                Node *u = nodes[a];
-                Node *v = nodes[b];
-                makeRoot(u);
-                expose(v);
-                return v->sz - 1;
+        ll pathSum(int x, int y) {  // x, y в одном дереве
+                makeRoot(x);
+                access(y);
+                return t[y].sum;
         }
 };

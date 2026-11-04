@@ -1,286 +1,95 @@
 #include "tmp.cpp"
 
-mt19937 rng(1543);
+mt19937 prng(7);
 
-class Node {
-public:
-        Node *l, *r;
-        int sz;
-        int x;
-        // int summ;
-        // bool reversed;
-        
-        Node() {
-                // summ = 0;
-                // reversed = false;
-                sz = 1;
-                x = 0;
-                l = nullptr;
-                r = nullptr;
+// Персистентное неявное декартово дерево (без ленивых операций). Версия = корень (int).
+// Каждая операция возвращает новый корень, старые версии остаются валидными.
+// Память: O(log n) новых вершин на операцию.
+struct PersTreap {
+        struct Node {
+                int l = 0, r = 0, sz = 1, y = 0;
+                ll x = 0, sum = 0;
+        };
+
+        ve<Node> t;
+
+        PersTreap() : t(1) {
+                t[0].sz = 0;
         }
 
-        Node(int _x) {
-                // reversed = false;
-                sz = 1;
-                // summ = _x;
-                x = _x;
-                l = nullptr;
-                r = nullptr;
+        int newNode(ll x) {
+                Node v;
+                v.x = v.sum = x;
+                v.y = prng();
+                t.push_back(v);
+                return (int)t.size() - 1;
         }
 
-        void push() {
-                return;
-                // if (reversed) {
-                //         if (l) l->reverse();
-                //         if (r) r->reverse();
-                //         reversed = false;
-                // }
+        int copy(int v) {
+                Node c = t[v];
+                t.push_back(c);
+                return (int)t.size() - 1;
         }
 
-        void pull() {
-                // summ = x;
-                // if (l) summ += l->summ;
-                // if (r) summ += r->summ;
-                sz = 1;
-                if (l) sz += l->sz;
-                if (r) sz += r->sz;
+        void pull(int v) {
+                int l = t[v].l, r = t[v].r;
+                t[v].sz = 1 + t[l].sz + t[r].sz;
+                t[v].sum = t[v].x + t[l].sum + t[r].sum;
         }
 
-        // void reverse() {
-        //         reversed ^= 1;
-        //         swap(l, r);
-        // }
+        pii split(int v, int k) {
+                if (!v) return {0, 0};
+                int c = copy(v);
+                if (t[t[v].l].sz >= k) {
+                        auto [a, b] = split(t[v].l, k);
+                        t[c].l = b;
+                        pull(c);
+                        return {a, c};
+                }
+                auto [a, b] = split(t[v].r, k - t[t[v].l].sz - 1);
+                t[c].r = a;
+                pull(c);
+                return {c, b};
+        }
+
+        int merge(int a, int b) {
+                if (!a || !b) return a ? a : b;
+                int c;
+                if (t[a].y > t[b].y) {
+                        c = copy(a);
+                        int r = merge(t[a].r, b);
+                        t[c].r = r;
+                } else {
+                        c = copy(b);
+                        int l = merge(a, t[b].l);
+                        t[c].l = l;
+                }
+                pull(c);
+                return c;
+        }
+
+        int build(const ve<ll> &a) {
+                int root = 0;
+                for (ll x : a) root = merge(root, newNode(x));
+                return root;
+        }
+
+        int insert(int root, int pos, ll x) {
+                auto [a, b] = split(root, pos);
+                return merge(merge(a, newNode(x)), b);
+        }
+
+        int erase(int root, int pos) {
+                auto [a, b] = split(root, pos);
+                auto [c, d] = split(b, 1);
+                return merge(a, d);
+        }
+
+        ll sum(int root, int l, int r) {  // [l, r)
+                auto [a, b] = split(root, l);
+                auto [c, d] = split(b, r - l);
+                return t[c].sum;
+        }
+
+        int size(int root) { return t[root].sz; }
 };
-
-int _size(Node *t) {
-        return (t) ? t->sz : 0;
-}
-
-// int _summ(Node *t) {
-//         return (t) ? t->summ : 0;
-// }
-
-namespace Pivo {
-
-pr<Node*, Node*> split(Node *t, int k) {  // <= >
-        if (!t) return {nullptr, nullptr};
-        t->push();
-        if (_size(t) <= k) return {t, nullptr};
-        if (k == 0) return {nullptr, t};
-        t = new Node(*t);
-        if (_size(t->l) >= k) {
-                auto [t1, t2] = split(t->l, k);
-                t->l = t2;
-                t->pull();
-                return {t1, t};
-        } else {
-                auto [t1, t2] = split(t->r, k - _size(t->l) - 1);
-                t->r = t1;
-                t->pull();
-                return {t, t2};
-        }
-}
-
-Node * merge(Node *t1, Node *t2) {
-        if (!t1) return t2;
-        if (!t2) return t1;
-        t1->push();
-        t2->push();
-        if (rand() % (_size(t1) + _size(t2)) < _size(t1)) {
-                t1 = new Node(*t1);
-                t1->r = merge(t1->r, t2);
-                t1->pull();
-                return t1;
-        } else {
-                t2 = new Node(*t2);
-                t2->l = merge(t1, t2->l);
-                t2->pull();
-                return t2;
-        }
-}
-
-Node *root = nullptr;
-
-void insert(int x, int pos) {
-        auto [t1, t2] = split(root, pos);
-        root = merge(merge(t1, new Node(x)), t2);
-}
-
-void push_back(int x) {
-        root = merge(root, new Node(x));
-}
-
-void remove(int pos) {
-        auto [t1, t2] = split(root, pos);
-        auto [t11, t12] = split(t2, 1);
-        root = merge(t1, t12);
-        delete t11;
-}
-
-int getF(Node *t) {
-        while (t->l) {
-                t = t->l;
-        }
-        return t->x;
-}
-
-// int getSumm(int l, int r) {
-//         auto [t1, t2] = split(root, r);
-//         auto [t11, t12] = split(t1, l);
-//         if (!t12) return 0;
-//         int res = t12->summ;
-//         root = merge(merge(t11, t12), t2);
-//         return res;
-// }
-
-// void assign(long long x, int l, int r) {
-//         auto [t1, t2] = split(root, r);
-//         auto [t11, t12] = split(t1, l);
-//         t12->hasLower = false; t12->hasUpper = false;
-//         t12->mn = x; t12->mx = x;
-//         t12->summ = x * t12->sz; t12->cur = x;
-//         t12->pushSet = true; t12->sp = x;
-//         t12->fstel = x; t12->lstel = x;
-//         t12->sp2 = 0;
-//         t1 = merge(t11, t12);
-//         root = merge(t1, t2);
-// }
-
-// void add(long long x, int l, int r) {
-//         auto [t1, t2] = split(root, r);
-//         auto [t11, t12] = split(t1, l);
-//         t12->mn += x; t12->mx += x;
-//         t12->summ += x * t12->sz; t12->cur += x;
-//         t12->sp2 += x;
-//         t12->fstel += x; t12->lstel += x;
-//         root = merge(merge(t11, t12), t2);
-// }
-
-// int findLastG(Node* t, int x) {
-//         if (t == nullptr) return -1;
-//         push(t);
-//         if (!t->r || t->r->mx <= x) {
-//                 if (t->cur > x) return size(t->l);
-//                 return findLastG(t->l, x);
-//         }
-//         int res = findLastG(t->r, x);
-//         if (res == -1) return -1;
-//         return size(t->l) + 1 + res;
-// }
-
-// int findLastL(Node* t, int x) {
-//         if (t == nullptr) return -1;
-//         push(t);
-//         if (!t->r || t->r->mn >= x) {
-//                 if (t->cur < x) return size(t->l);
-//                 return findLastL(t->l, x);
-//         }
-//         int res = findLastL(t->r, x);
-//         if (res == -1) return -1;
-//         return size(t->l) + 1 + res;
-// }
-
-// int findLastHasLower(Node *t) {
-//         if (t == nullptr) return -1;
-//         push(t);
-//         if (!t->r) {
-//                 if (t->l && t->l->lstel < t->cur) {
-//                         return size(t->l) - 1;
-//                 }
-//                 return findLastHasLower(t->l);
-//         } else if (!t->r->hasLower) {
-//                 if (t->cur < t->r->mx) return size(t->l);
-//                 if (t->l && t->l->lstel < t->cur) return size(t->l) - 1;
-//                 return findLastHasLower(t->l);
-//         } else {
-//                 return size(t->l) + 1 + findLastHasLower(t->r);
-//         }
-// }
-
-// int findLastHasUpper(Node *t) {
-//         if (t == nullptr) return -1;
-//         push(t);
-//         if (!t->r) {
-//                 if (t->l && t->l->lstel > t->cur) {
-//                         return size(t->l) - 1;
-//                 }
-//                 return findLastHasUpper(t->l);
-//         } else if (!t->r->hasUpper) {
-//                 if (t->cur > t->r->mn) {
-//                         return size(t->l);
-//                 }
-//                 if (t->l && t->l->lstel > t->cur) {
-//                         return size(t->l) - 1;
-//                 }
-//                 return findLastHasUpper(t->l);
-//         } else {
-//                 return size(t->l) + 1 + findLastHasUpper(t->r);
-//         }
-// }
-
-// void next_permutation(int l, int r) {
-//         auto [t1, t2] = split(root, r);
-//         auto [t11, t] = split(t1, l);
-//         int i = findLastHasLower(t);
-//         if (i == -1) {
-//                 reverse(t);
-//         } else {
-//                 auto [tmp, nt] = split(t, i);
-//                 auto [ql, m] = split(nt, 1);
-//                 int j = findLastG(m, ql->cur);
-//                 auto [nm, suff] = split(m, j);
-//                 auto [qr, nsuff] = split(suff, 1);
-//                 nt = merge(nm, merge(ql, nsuff));
-//                 reverse(nt);
-//                 t = merge(tmp, merge(qr, nt));
-//         }
-//         root = merge(merge(t11, t), t2);
-// }
-
-// void prev_permutation(int l, int r) {
-//         auto [t1, t2] = split(root, r);
-//         auto [t11, t] = split(t1, l);
-//         int i = findLastHasUpper(t);
-//         if (i == -1) {
-//                 reverse(t);
-//         } else {
-//                 auto [tmp, nt] = split(t, i);
-//                 auto [ql, m] = split(nt, 1);
-//                 int j = findLastL(m, ql->cur);
-//                 auto [nm, suff] = split(m, j);
-//                 auto [qr, nsuff] = split(suff, 1);
-//                 nt = merge(nm, merge(ql, nsuff));
-//                 reverse(nt);
-//                 t = merge(tmp, merge(qr, nt));
-//         }
-//         root = merge(merge(t11, t), t2);
-// }
-
-} // namespace Pivo
-
-using namespace Pivo;
-
-void solve() {
-        root = nullptr;
-        int n; cin >> n;
-        vi a(n);
-        for (int i = 0; i < n; i++) cin >> a[i];
-        for (int i = 0; i < a[n - 1]; i++) {
-                push_back(i + a[n - 1]);
-        }
-        for (int i = a[n - 1]; i < 2 * n; i++) {
-                push_back(i - a[n - 1]);
-        }
-        vi ans(n);
-        cout << getF(root) << ' ';
-        for (int i = n - 2; i >= 0; i--) {
-                auto [t1, t2] = split(root, a[i]);
-                auto [t21, t22] = split(t2, a[i]);
-                auto tmp = t21;
-                root = merge(t1, merge(t21, t22));
-                auto [nt1, nt2] = split(root, 2 * n - a[i]);
-                root = merge(tmp, nt1);
-                cout << getF(root) << ' ';
-        }
-        cout << '\n';
-}
