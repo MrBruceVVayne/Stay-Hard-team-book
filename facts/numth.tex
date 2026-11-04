@@ -1,0 +1,39 @@
+\subsection{Модульная арифметика}
+\textbf{Эйлер, Ферма, обобщённая Эйлера:} $a^{\varphi(m)}\equiv1\ (\gcd(a,m){=}1)$; для любых $a$ и $x\ge\log_2m$: $a^x\equiv a^{\varphi(m)+(x\bmod\varphi(m))}\pmod m$ (башни степеней). Вильсон: $(p{-}1)!\equiv-1\pmod p$.
+\par \textbf{Первообразные корни} есть при $m=1,2,4,p^k,2p^k$ ($p$ нечётное); их ровно $\varphi(\varphi(m))$. Порядок элемента делит $\varphi(m)$; $g$ -- корень $\iff g^{(p-1)/q}\ne1$ для всех простых $q\mid p{-}1$.
+\par \textbf{Квадратичные вычеты:} $\left(\frac ap\right)\equiv a^{(p-1)/2}$; взаимность $\left(\frac pq\right)\left(\frac qp\right)=(-1)^{\frac{p-1}2\cdot\frac{q-1}2}$ (нечётные простые $p\ne q$). Для нечётного $p$ и $a\not\equiv0$ корней $x^2{=}a$ ровно $0$ или $2$.
+\par \textbf{$\varphi$:} $\sum_{d\mid n}\varphi(d)=n$; $\varphi(mn)=\varphi(m)\varphi(n)\frac{g}{\varphi(g)}$, $g=\gcd(m,n)$; $\sum_{k\le n,\gcd(k,n)=1}k=\frac{n\varphi(n)}2$ ($n>1$).
+\par \textbf{Диофант} $ax+by=c$: решения есть $\iff\gcd(a,b)\mid c$; все: $(x_0+k\frac b g,\ y_0-k\frac ag)$. При $\gcd(a,b)=1$ число решений в $x,y\ge0$: $\frac n{ab}-\{\frac{b'n}a\}-\{\frac{a'n}b\}+1$, где $aa'\equiv1\ (\mathrm{mod}\ b)$, $bb'\equiv1\ (\mathrm{mod}\ a)$.
+\par \textbf{НОД/НОК:} $\gcd(a,\mathrm{lcm}(b,c))=\mathrm{lcm}(\gcd(a,b),\gcd(a,c))$ и двойственное; $\gcd(\mathrm{lcm}(a,b),\mathrm{lcm}(b,c),\mathrm{lcm}(a,c))=\mathrm{lcm}(\gcd(a,b),\gcd(b,c),\gcd(a,c))$.
+\subsection{Мёбиус и суммы по делителям}
+$\mu(n)=0$ при квадрате в $n$, иначе $(-1)^{\#\text{простых}}$; $\sum_{d\mid n}\mu(d)=[n=1]$.\\
+$g(n)=\sum_{d\mid n}f(d)\iff f(n)=\sum_{d\mid n}\mu(d)g(\tfrac nd)$;\ \ $g(n)=\sum_{n\mid d}f(d)\iff f(n)=\sum_{n\mid d}\mu(\tfrac dn)g(d)$;\\
+$g(n)=\sum_{m\le n}f(\lfloor\tfrac nm\rfloor)\iff f(n)=\sum_{m\le n}\mu(m)g(\lfloor\tfrac nm\rfloor)$.
+\par Свёртки: $\sum_{d\mid n}\varphi(d)=n$, $\ \sum_{k\le n}\gcd(k,n)=\sum_{d\mid n}d\varphi(\tfrac nd)$, $\ \sum_{k\le n}\mathrm{lcm}(k,n)=\frac n2\big(\sum_{d\mid n}d\varphi(d)+1\big)$,\\
+$\sum_{i,j\le n}\mathrm{lcm}(i,j)=\sum_{l\le n}S\big(\lfloor\tfrac nl\rfloor\big)^2\sum_{d\mid l}\mu(d)\,l\,d$, где $S(m)=\frac{m(m+1)}2$.\\
+Бесквадратных $\le N$: $\sum_{k\le\sqrt N}\mu(k)\lfloor N/k^2\rfloor$. Значений $\lfloor n/i\rfloor$ не более $2\sqrt n$ (блоки одинаковых значений); $\sum_{k\le n}\lfloor n/k\rfloor\approx n\ln n$; $\sum_{d\mid n}d=O(n\log\log n)$.
+\subsection{Суммы квадратов, тройки, решётка}
+\textbf{Тройки:} $a=k(m^2{-}n^2),\ b=2kmn,\ c=k(m^2{+}n^2)$, $m>n>0$, $\gcd(m,n)=1$, $m\not\equiv n\ (2)$ -- все примитивные (при $k{=}1$). Пар $(a,b)$, $a,b>0$, с $a^2{+}b^2=n^2$: $\prod_{p\equiv1\,(4)}(2\alpha_p{+}1)-1$.
+\par $n$ -- сумма двух квадратов $\iff$ простые $\equiv3\ (4)$ входят в чётных степенях; $r_2(n)=4(d_1(n){-}d_3(n))$ (делители $\equiv1,3$ mod 4); любое $n$ -- сумма четырёх квадратов, $r_4(n)=8\sum_{d\mid n,\,4\nmid d}d$; $r_8(n)=16\sum_{d\mid n}(-1)^{n+d}d^3$; сумма трёх квадратов невозможна ровно для $n=4^a(8b{+}7)$.
+\par \textbf{Пик:} $S=I+\frac B2-1$; целых точек на отрезке $\gcd(|dx|,|dy|){+}1$.
+\subsection{Фибоначчи}
+$F_{2n}=F_n(2F_{n+1}{-}F_n)$,\ $F_{2n+1}=F_n^2+F_{n+1}^2$;\ $\gcd(F_a,F_b)=F_{\gcd(a,b)}$;\ Кассини $F_{n-1}F_{n+1}-F_n^2=(-1)^n$;\ $\sum_{i\le n}F_i=F_{n+2}-1$,\ $\sum F_i^2=F_nF_{n+1}$. $n$ -- число Фибоначчи $\iff5n^2\pm4$ -- точный квадрат. Цекендорф: единственное разложение без соседних слагаемых. Период Пизано $\pi(m)\le6m$, равенство при $m=2\cdot5^k$, $k\ge1$.
+\subsection{Асимптотики}
+$n!\sim\sqrt{2\pi n}\big(\frac ne\big)^n\big(1+\frac1{12n}+\frac1{288n^2}-\frac{139}{51840n^3}\big)$;\ $\ln n!=n\ln n-n+\frac12\ln(2\pi n)+\frac1{12n}-\frac1{360n^3}+\frac1{1260n^5}$;\ $\binom{2n}n\approx\frac{4^n}{\sqrt{\pi n}}$;\ $H_n\approx\ln n+0.5772157+\frac1{2n}$;\ $\pi(x)\approx x/\ln x$.
+\subsection{Таблицы}
+\begin{center}\scriptsize\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{c|cccccccccccc}
+$k$&1&2&3&4&5&6&7&8&9&10\\\hline
+$\pi(10^k)$&4&25&168&1229&9592&78498&664579&5761455&50847534&455052511\\
+\end{tabular}\end{center}
+\par Наибольшее число делителей ($N<$): $5\cdot10^4$ -- 100 ($45360$); $10^7$ -- 448 ($8648640$); $10^{10}$ -- 2304 ($6983776800$)\,$^\dagger$; $10^{19}$ -- 161280.
+\begin{center}\scriptsize\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{c|cccccc}
+$N\le$&$10^3$&$10^6$&$10^9$&$10^{12}$&$10^{15}$&$10^{18}$\\\hline
+$n$&840&720720&735134400&963761198400&866421317361600&897612484786617600\\
+$d(n)$&32&240&1344&6720&26880&103680\\
+\end{tabular}\end{center}
+\par \textbf{Пределы типов:} $12!<2^{31}\le13!$; $20!<2^{63}\le21!$; $170!<$ DBL\_MAX $<171!$; $F_{46}<2^{31}$, $F_{92}<2^{63}$; $C_{19}<2^{31}$, $C_{35}<2^{63}$ (Каталан); $\binom{66}{33}<2^{63}$.
+\par \textbf{Простые.} NTT: $998244353=119\cdot2^{23}{+}1$, $167772161=5\cdot2^{25}{+}1$, $469762049=7\cdot2^{26}{+}1$ (корень 3), $962592769=459\cdot2^{21}{+}1$; 64-бит: $29\cdot2^{57}{+}1$ ($g{=}3$), $27\cdot2^{56}{+}1$ ($g{=}5$), $237\cdot2^{52}{+}1$ ($g{=}5$).
+$10^9{+}\{7,9,21,33,87,93,97,103,123\}$;\ $10^{18}{+}\{3,9,31,79,177,183,201,283\}$. Для хеша: $970592641$ (30 бит)$^\dagger$, $31443539979727$ (45), $3006703054056749$ (52), $1791791791$, $1234676767$, $1000575757$, $998696969$, $996179179$, $991676767$.
+\par \textbf{Миллер--Рабин, детерминированные базы:} $n<4759123141$: $\{2,7,61\}$; $n<2152302898747$: $\{2,3,5,7,11\}$; $n<2^{64}$: $\{2,325,9375,28178,450775,9780504,1795265022\}$ или первые 12 простых.

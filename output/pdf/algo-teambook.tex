@@ -82,111 +82,122 @@
 \pagestyle{fancyplain}
 \fancyhf{}
 \fancyhead[R]{\fontsize{12}{12}\selectfont\bfseries\thepage}
-\fancyhead[L]{\fontsize{8}{8}\selectfont\bfseries algo -- Team Reference Document}
+\fancyhead[L]{\fontsize{8}{8}\selectfont\bfseries algo}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand\headrule{\vspace{-0.2cm}\rule{\headwidth}{0.4pt}\vspace{-0.8cm}}
 
-\begin{document}
-
-\title{\bfseries algo -- Team Reference Document}
-\author{}
-\date{}
-\maketitle
-
-\begin{multicols*}{3}
-\tableofcontents
-\end{multicols*}
-
-\pagebreak
-\begin{multicols*}{3}
+\usepackage{titlesec}
+\titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.3em}{}
+\titleformat{\subsection}{\bfseries\small}{}{0em}{}
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+\titlespacing*{\subsection}{0pt}{3pt}{1pt}
+\setlength{\abovedisplayskip}{1pt}\setlength{\belowdisplayskip}{1pt}
 \raggedcolumns
-
-\section{Templates}
-
-\subsection{alloc.cpp}
-\lstinputlisting{alloc.cpp}
-
-\subsection{tmp.cpp}
-\lstinputlisting{tmp.cpp}
-
-\subsection{tmpFast.cpp}
-\lstinputlisting{tmpFast.cpp}
-
-\subsection{cmp.sh}
-\lstinputlisting[language=bash]{cmp.sh}
-
-\section{Data Structures}
-
-\subsection{Disjoint Sparse Table}
-\lstinputlisting{dataStructures/dst.cpp}
-
-\subsection{Fenwick Tree}
-\lstinputlisting{dataStructures/fenwick.cpp}
-
+\begin{document}
+\begin{multicols*}{3}
+\setlength{\parindent}{0pt}
+\footnotesize
+\raggedright
+\setlength{\emergencystretch}{4em}
+\tableofcontents
+\vfill\null\columnbreak
+\pagestyle{fancyplain}
+\section{Шаблоны}
+\subsection{Шаблон}
+\lstinputlisting{/home/user/algo/build/book/src/tmp.cpp}
+\subsection{Быстрый шаблон (без solve)}
+\lstinputlisting{/home/user/algo/build/book/src/tmpFast.cpp}
+\subsection{Аллокатор}
+\lstinputlisting{/home/user/algo/build/book/src/alloc.cpp}
+\subsection{Компиляция}
+\lstinputlisting[language=bash]{/home/user/algo/build/book/src/cmp.sh}
+\subsection{Стресс-тест}
+\lstinputlisting[language=bash]{/home/user/algo/build/book/src/stress.sh}
+\section{Структуры данных}
+\subsection{Фенвик}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__fenwick.cpp}
+\subsection{Sparse table}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__sptable.cpp}
+\subsection{Disjoint sparse table}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__dst.cpp}
+\subsection{Дерево отрезков (ленивое)}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__segTree.cpp}
+\subsection{Дерево отрезков снизу}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__segTreeFast.cpp}
+\subsection{СНМ с откатами}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__dsu.cpp}
+\subsection{Неявное декартово дерево}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__treap.cpp}
+\subsection{Персистентное декартово дерево}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__persTreap.cpp}
 \subsection{Link-Cut Tree}
-\lstinputlisting{dataStructures/linkCutTree.cpp}
-
-\subsection{Node}
-\lstinputlisting{dataStructures/node.cpp}
-
-\subsection{Persistent Treap}
-\lstinputlisting{dataStructures/persTreap.cpp}
-
-\subsection{Segment Tree}
-\lstinputlisting{dataStructures/segTree.cpp}
-
-\subsection{Fast Segment Tree}
-\lstinputlisting{dataStructures/segTreeFast.cpp}
-
-\subsection{Splay Tree}
-\lstinputlisting{dataStructures/splayTree.cpp}
-
-\subsection{Sparse Table}
-\lstinputlisting{dataStructures/sptable.cpp}
-
-\subsection{Treap}
-\lstinputlisting{dataStructures/treap.cpp}
-
-\section{Geometry}
-
-\subsection{Graham Scan}
-\lstinputlisting{geoma/graham.cpp}
-
-\subsection{Jarvis March}
-\lstinputlisting{geoma/jarvis.cpp}
-
-\subsection{2D Geometry}
-\lstinputlisting{geoma/point2d.cpp}
-
-\section{Graphs}
-
-\subsection{Centroid Decomposition}
-\lstinputlisting{graphs/centroid.cpp}
-
-\subsection{Cut Points}
-\lstinputlisting{graphs/cutpts.cpp}
-
-\subsection{Heavy-Light Decomposition}
-\lstinputlisting{graphs/hld.cpp}
-
-\section{Optimizations and Transforms}
-
-\subsection{Convex Hull Trick}
-\lstinputlisting{opts/cht.cpp}
-
-\subsection{Fast Fourier Transform}
-\lstinputlisting{opts/fft.cpp}
-
-\subsection{Compiler Optimizations}
-\lstinputlisting{opts/opts.cpp}
-
-\subsection{XOR Convolution}
-\lstinputlisting{opts/xorConv.cpp}
-
-\section{Strings}
-
-\subsection{String Algorithms}
-\lstinputlisting{strings/strings.cpp}
-
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__linkCutTree.cpp}
+\subsection{Алгоритм Mo}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__mo.cpp}
+\subsection{Динамический КХТ}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__lineContainer.cpp}
+\subsection{Li Chao}
+\lstinputlisting{/home/user/algo/build/book/src/dataStructures__liChao.cpp}
+\section{Графы}
+\subsection{Диниц, Гомори--Ху, Штор--Вагнер}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__dinic.cpp}
+\subsection{Mincost maxflow}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__mincost.cpp}
+\subsection{Паросочетания: Хопкрофт--Карп, блоссом, венгерка}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__matching.cpp}
+\subsection{КСС и 2-SAT}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__scc.cpp}
+\subsection{Мосты, точки сочленения, BCC}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__bridges.cpp}
+\subsection{HLD и центроидная декомпозиция}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__tree.cpp}
+\subsection{Оффлайн динамическая связность}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__dyncon.cpp}
+\subsection{Пути, Эйлеров путь, направленный остов}
+\lstinputlisting{/home/user/algo/build/book/src/graphs__paths.cpp}
+\section{Математика}
+\subsection{Теория чисел: gcd, КТО, решето}
+\lstinputlisting{/home/user/algo/build/book/src/math__numth.cpp}
+\subsection{Миллер--Рабин, Ро-Поллард}
+\lstinputlisting{/home/user/algo/build/book/src/math__prime.cpp}
+\subsection{sqrt, первообразный корень, лог, floor-sum}
+\lstinputlisting{/home/user/algo/build/book/src/math__modular.cpp}
+\subsection{Гаусс, определитель, матричная степень}
+\lstinputlisting{/home/user/algo/build/book/src/math__gauss.cpp}
+\subsection{Берлекэмп--Мэсси, n-й член, Лагранж}
+\lstinputlisting{/home/user/algo/build/book/src/math__linrec.cpp}
+\subsection{Комбинаторика, Лукас, pi(n)}
+\lstinputlisting{/home/user/algo/build/book/src/math__combi.cpp}
+\subsection{Симплекс}
+\lstinputlisting{/home/user/algo/build/book/src/math__simplex.cpp}
+\section{Преобразования и оптимизации}
+\subsection{NTT и свёртка по модулю}
+\lstinputlisting{/home/user/algo/build/book/src/opts__ntt.cpp}
+\subsection{FFT (double)}
+\lstinputlisting{/home/user/algo/build/book/src/opts__fft.cpp}
+\subsection{Многочлены: inv, log, exp, Стирлинг-строки}
+\lstinputlisting{/home/user/algo/build/book/src/opts__poly.cpp}
+\subsection{Уолш--Адамар, SOS}
+\lstinputlisting{/home/user/algo/build/book/src/opts__fwht.cpp}
+\subsection{D\&C, Кнут, НВП}
+\lstinputlisting{/home/user/algo/build/book/src/opts__dpopt.cpp}
+\section{Строки}
+\subsection{Z, префикс, Манакер, суфмас, хеш}
+\lstinputlisting{/home/user/algo/build/book/src/strings__strings.cpp}
+\subsection{Автомат, Ахо-Корасик, эертри}
+\lstinputlisting{/home/user/algo/build/book/src/strings__automata.cpp}
+\section{Геометрия}
+\subsection{База: точка, прямая, окружность}
+\lstinputlisting{/home/user/algo/build/book/src/geoma__point2d.cpp}
+\subsection{Оболочка, полигоны, ПП, калиперы, круг и полигон}
+\lstinputlisting{/home/user/algo/build/book/src/geoma__polygon.cpp}
+\section{Разное}
+\subsection{pbds, хеш, быстрый ввод, int128}
+\lstinputlisting{/home/user/algo/build/book/src/other__misc.cpp}
+\section{Факты}
+\input{/home/user/algo/facts/combi.tex}
+\input{/home/user/algo/facts/numth.tex}
+\input{/home/user/algo/facts/geomgraph.tex}
+\input{/home/user/algo/facts/gamesmisc.tex}
 \end{multicols*}
 \end{document}

@@ -187,3 +187,21 @@ ve<pt> hpi(ve<HP> H) {
         for (size_t i = 0; i < dq.size(); i++) res.push_back(hpInter(dq[i], dq[(i + 1) % dq.size()]));
         return res;
 }
+
+// Площадь пересечения круга (c, r) с простым многоугольником p (со знаком ориентации), O(n)
+ld circlePoly(const ve<pt> &p, const pt &c, ld r) {
+        auto arg = [](const pt &a, const pt &b) { return atan2l(a % b, a * b); };
+        auto tri = [&](const pt &a, const pt &b) -> ld {
+                ld r2 = r * r / 2;
+                pt d = b - a;
+                ld A = (d * a) / d.len2(), B = (a.len2() - r * r) / d.len2(), det = A * A - B;
+                if (det <= 0) return arg(a, b) * r2;
+                ld s = max<ld>(0, -A - sqrtl(det)), t = min<ld>(1, -A + sqrtl(det));
+                if (t < 0 || 1 <= s) return arg(a, b) * r2;
+                pt u = a + d * s, v = a + d * t;
+                return arg(a, u) * r2 + (u % v) / 2 + arg(v, b) * r2;
+        };
+        ld sum = 0;
+        for (size_t i = 0; i < p.size(); i++) sum += tri(p[i] - c, p[(i + 1) % p.size()] - c);
+        return sum;
+}

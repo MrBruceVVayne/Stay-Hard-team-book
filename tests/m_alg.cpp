@@ -121,6 +121,6 @@ signed main() {
           vi pc(2000001); for (int i = 1; i <= 2000000; i++) pc[i] = pc[i - 1] + sv[i];
           for (int n = 0; n < 3000; n++) CHECK_EQ(primeCount(n), pc[n]);
           for (int it = 0; it < 200; it++) { int n = rnd(0, 2000000); CHECK_EQ(primeCount(n), pc[n]); }
-          CHECK_EQ(primeCount(1000000000LL), 50847534LL); CHECK_EQ(primeCount(10000000000LL), 455052511LL); }
+          CHECK_EQ(primeCount(100000000LL), 5761455LL); CHECK_EQ(primeCount(1000000000LL), 50847534LL); CHECK_EQ(primeCount(10000000000LL), 455052511LL); }
         cout << "ok\n";
 }
