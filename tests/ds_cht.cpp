@@ -7,7 +7,7 @@ signed main() {
                 int n = rnd(1, 40);
                 LineContainer lc;
                 LiChao li(n);
-                ve<pair<ll,ll>> ls;
+                ve<pll> ls;
                 for (int q = 0; q < 40; q++) {
                         if (rnd(0, 1) || ls.empty()) {
                                 ll k = rnd(-20, 20), m = rnd(-500, 500);

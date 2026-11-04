@@ -1,87 +1,43 @@
+#pragma once
 #include "tmp.cpp"
 
-using cd = complex<ld>;
-using vcd = vector<cd>;
-const ld PI = acosl(-1);
+using cd = complex<double>;
+const double PI = acos(-1.0);
 
-void fft(vcd &a, vcd &res, int start, int step, int n, int l, bool inv=false) {
-        if (n == 1) {
-                res[l] = a[start];
-                return;
+void fft(ve<cd> &a, bool invert) {
+        int n = a.size();
+        for (int i = 1, j = 0; i < n; i++) {
+                int bit = n >> 1;
+                for (; j & bit; bit >>= 1) j ^= bit;
+                j ^= bit;
+                if (i < j) swap(a[i], a[j]);
         }
-        int m = n / 2;
-        cd wi(1);
-        ld angle = 2 * PI / n * (inv ? -1 : 1);
-        cd w(cosl(angle), sinl(angle));
-        fft(a, res, start, step * 2, n / 2, l, inv);
-        fft(a, res, start + step, step * 2, n / 2, l + m, inv);
-        for (int i = l; i < l + m; i++) {
-                cd v0 = res[i];
-                cd v1 = res[i + m];
-                res[i] = v0 + wi * v1;
-                res[i + m] = v0 - wi * v1;
-                if (inv) {
-                        res[i] /= 2;
-                        res[i + m] /= 2;
+        ve<cd> rt(n / 2 + 1);
+        for (int i = 0; i < n / 2; i++) rt[i] = polar(1.0, 2 * PI * i / n * (invert ? -1 : 1));
+        for (int len = 2; len <= n; len <<= 1) {
+                int step = n / len;
+                for (int i = 0; i < n; i += len) {
+                        for (int j = 0; j < len / 2; j++) {
+                                cd u = a[i + j], v = a[i + j + len / 2] * rt[j * step];
+                                a[i + j] = u + v;
+                                a[i + j + len / 2] = u - v;
+                        }
                 }
-                wi *= w;
         }
+        if (invert) for (auto &x : a) x /= n;
 }
 
-void solve() {
-        string a, b; cin >> a >> b;
-        int n1 = a.length();
-        int n2 = b.length();
-        if (a[0] == '0' || b[0] == '0') {
-                cout << 0 << '\n';
-                return;
-        }
-        bool f1 = a[0] == '-';
-        bool f2 = b[0] == '-';
-        vcd A, B;
-        for (int i = n1 - 1; i >= (int)f1; i--) A.push_back(a[i] - '0');
-        for (int i = n2 - 1; i >= (int)f2; i--) B.push_back(b[i] - '0');
-        n1 -= f1;
-        n2 -= f2;
-        int n = n1 + n2;
-        while (n1 < n) {
-                A.push_back(0);
-                n1++;
-        }
-        while (n > n2) {
-                B.push_back(0);
-                n2++;
-        }
-        while (__builtin_popcount(n) > 1) {
-                A.push_back(0);
-                B.push_back(0);
-                n++;
-        }
-        vcd r1(n), r2(n);
-        fft(A, r1, 0, 1, n, 0);
-        fft(B, r2, 0, 1, n, 0);
-        vcd r(n);
-        for (int i = 0; i < n; i++) {
-                r[i] = r1[i] * r2[i];
-        }
-        fft(r, A, 0, 1, n, 0, true);
-        if (f1 ^ f2) {
-                cout << '-';
-        }
-        ll nakop = 0;
-        vi ans;
-        ans.reserve(n);
-        for (int i = 0; i < n; i++) {
-                nakop += llround(A[i].real());
-                ans.push_back(nakop % 10);
-                nakop /= 10;
-        }
-        while (nakop) {
-                cout << nakop % 10;
-                nakop /= 10;
-        }
-        int ind = (int)ans.size() - 1;
-        while (ans[ind] == 0) ind--;
-        for (; ind >= 0; ind--) cout << ans[ind];
-        cout << '\n';
+// Точная целочисленная свёртка, пока |ответ| <~ 1e14 / log n (для больших -- разбивать на 15 бит)
+ve<ll> convFFT(const ve<ll> &a, const ve<ll> &b) {
+        int need = a.size() + b.size() - 1, n = 1;
+        while (n < need) n <<= 1;
+        ve<cd> fa(all(a)), fb(all(b));
+        fa.resize(n), fb.resize(n);
+        fft(fa, false);
+        fft(fb, false);
+        for (int i = 0; i < n; i++) fa[i] *= fb[i];
+        fft(fa, true);
+        ve<ll> res(need);
+        for (int i = 0; i < need; i++) res[i] = llround(fa[i].real());
+        return res;
 }

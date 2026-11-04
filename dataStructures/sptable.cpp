@@ -1,3 +1,4 @@
+#pragma once
 #include "tmp.cpp"
 
 // Разреженная таблица (min), запрос на [l, r), r > l, O(1).

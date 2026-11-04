@@ -1,3 +1,4 @@
+#pragma once
 #include "tmp.cpp"
 
 // Фенвик на [0, n). get(l, r) -- сумма на [l, r). lower_bound -- для неотрицательных

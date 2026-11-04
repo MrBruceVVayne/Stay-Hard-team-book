@@ -1,3 +1,4 @@
+#pragma once
 #include "tmp.cpp"
 
 // Link-Cut Tree: вершины 1..n. Лес с корнями, makeRoot/link/cut/connected, сумма на пути.

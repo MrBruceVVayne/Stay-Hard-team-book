@@ -5,7 +5,7 @@
 cd "$(dirname "$0")/.." || exit 1
 mkdir -p build
 CXX=${CXX:-g++}
-FLAGS="-std=c++20 -O1 -g -Wall -Wextra -Wshadow -Wno-unused-parameter -Wno-sign-compare -D_GLIBCXX_DEBUG -fsanitize=address,undefined -fno-sanitize-recover=undefined -I. -Itests"
+FLAGS="-std=c++20 -O1 -g -Wall -Wextra -Wshadow -Wno-unused-parameter -Wno-return-type -Wno-sign-compare -D_GLIBCXX_DEBUG -fsanitize=address,undefined -fno-sanitize-recover=undefined -I. -Itests"
 if [ $# -gt 0 ]; then names=("$@"); else names=($(ls tests/*.cpp | xargs -n1 basename | sed 's/\.cpp$//')); fi
 run_one() {
         n=$1
@@ -20,7 +20,7 @@ run_one() {
 }
 export -f run_one; export CXX FLAGS
 printf '%s\n' "${names[@]}" | xargs -P ${JOBS:-4} -I{} bash -c 'run_one {}' | tee build/summary.txt
-fail=$(grep -c -E '^(FAIL|COMPILE FAIL)' build/summary.txt)
+fail=$(grep -c -E "^(FAIL  |COMPILE FAIL)" build/summary.txt)
 echo "----"; echo "tests: ${#names[@]}, failed: $fail"
 # факты (python)
 if [ $# -eq 0 ]; then

@@ -1,3 +1,4 @@
+#pragma once
 #include "tmp.cpp"
 
 mt19937 prng(7);

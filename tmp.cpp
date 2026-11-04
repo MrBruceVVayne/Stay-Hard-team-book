@@ -13,6 +13,7 @@ using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
 using pii = pair<int, int>;
+using pll = pair<long long, long long>;
 template<typename T1, typename T2>
 using pr = pair<T1, T2>;
 using vi = vector<int>;

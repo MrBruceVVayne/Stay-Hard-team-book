@@ -1,3 +1,4 @@
+#pragma once
 #include "tmp.cpp"
 
 // Динамический КХТ: добавить прямую y = k * x + m, максимум в точке x. O(log n).

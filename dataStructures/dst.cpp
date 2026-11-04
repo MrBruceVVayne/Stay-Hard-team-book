@@ -1,3 +1,4 @@
+#pragma once
 #include "tmp.cpp"
 
 // Disjoint Sparse Table: запрос на [l, r) за O(1) для ЛЮБОЙ ассоциативной операции
